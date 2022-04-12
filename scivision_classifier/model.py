@@ -27,20 +27,33 @@ def model_build(model_name):
                  classes=1000), preprocess_input
 
 
-class Resnet18:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet18')
+models = ['resnet18', 'seresnet18']
 
-    def predict(self, image: np.ndarray) -> np.ndarray:
-        return tidy_predict(self, image)
-        
-        
-class Seresnet18:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnet18')
+for model_name in models:
+    class Temp:
+        def __init__ (self):
+            self.pretrained_model, self.preprocess_input = model_build(model_name)
+        def predict(self, image: np.ndarray) -> np.ndarray:
+            return tidy_predict(self, image)
+    class_name = model_name.capitalize()
+    Temp.__name__ = class_name
+    globals()[class_name] = Temp
 
-    def predict(self, image: np.ndarray) -> np.ndarray:
-        return tidy_predict(self, image)
+
+# class Resnet18:
+#     def __init__(self):
+#         self.pretrained_model, self.preprocess_input = model_build('resnet18')
+# 
+#     def predict(self, image: np.ndarray) -> np.ndarray:
+#         return tidy_predict(self, image)
+# 
+# 
+# class Seresnet18:
+#     def __init__(self):
+#         self.pretrained_model, self.preprocess_input = model_build('seresnet18')
+# 
+#     def predict(self, image: np.ndarray) -> np.ndarray:
+#         return tidy_predict(self, image)
 
 
 if __name__ == "__main__":
