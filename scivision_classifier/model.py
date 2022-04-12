@@ -27,37 +27,37 @@ def model_build(model_name):
                  classes=1000), preprocess_input
 
 
-# model_names = ['seresnet18', 'resnet18']
-# models = {}
-# for model_name in model_names:
-#     models[model_name] = model_build(model_name)
+model_names = ['seresnet18', 'resnet18']
+models = {}
+for model_name in model_names:
+    models[model_name] = model_build(model_name)
+
+for model_name, model in models.items():
+    class Temp:
+        def __init__ (self):
+            self.pretrained_model = model[0]
+            self.preprocess_input = model[1]
+        def predict(self, image: np.ndarray) -> np.ndarray:
+            return tidy_predict(self, image)
+    class_name = model_name.capitalize()
+    Temp.__name__ = class_name
+    globals()[class_name] = Temp
+
+
+# class Resnet18:
+#     def __init__(self):
+#         self.pretrained_model, self.preprocess_input = model_build('resnet18')
 # 
-# for model_name, model in models.items():
-#     class Temp:
-#         def __init__ (self):
-#             self.pretrained_model = model[0]
-#             self.preprocess_input = model[1]
-#         def predict(self, image: np.ndarray) -> np.ndarray:
-#             return tidy_predict(self, image)
-#     class_name = model_name.capitalize()
-#     Temp.__name__ = class_name
-#     globals()[class_name] = Temp
-
-
-class Resnet18:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet18')
-
-    def predict(self, image: np.ndarray) -> np.ndarray:
-        return tidy_predict(self, image)
-
-
-class Seresnet18:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnet18')
-
-    def predict(self, image: np.ndarray) -> np.ndarray:
-        return tidy_predict(self, image)
+#     def predict(self, image: np.ndarray) -> np.ndarray:
+#         return tidy_predict(self, image)
+# 
+# 
+# class Seresnet18:
+#     def __init__(self):
+#         self.pretrained_model, self.preprocess_input = model_build('seresnet18')
+# 
+#     def predict(self, image: np.ndarray) -> np.ndarray:
+#         return tidy_predict(self, image)
 
 
 if __name__ == "__main__":
