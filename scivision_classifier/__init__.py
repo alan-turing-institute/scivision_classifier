@@ -1,1 +1,1 @@
-from .model import ImageClassifier
+from .model import Resnet18, Seresnet18

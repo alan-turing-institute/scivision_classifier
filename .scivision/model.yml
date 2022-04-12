@@ -2,19 +2,13 @@ name: scivision_classifier
 url: https://github.com/alan-turing-institute/scivision_classifier
 import: scivision_classifier
 models:
-  - model: ImageClassifier
-    args:
-        model_name: resnet18
+  - model: Resnet18
     prediction_fn:
         call: predict
         args:
             X: image
-        kwargs: None
-  - model: ImageClassifier
-    args:
-        model_name: seresnet18
+  - model: Seresnet18
     prediction_fn:
         call: predict
         args:
             X: image
-        kwargs: None
