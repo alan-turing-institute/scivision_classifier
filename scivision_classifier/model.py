@@ -24,8 +24,7 @@ def model_build(model_name):
     model, preprocess_input = Classifiers.get(model_name)
     return model(input_shape=(224, 224, 3),
                  weights="imagenet",
-                 classes=1000),
-           preprocess_input
+                 classes=1000), preprocess_input
 
 
 class Resnet18:
