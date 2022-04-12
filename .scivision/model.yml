@@ -3,11 +3,13 @@ url: https://github.com/alan-turing-institute/scivision_classifier
 import: scivision_classifier
 models:
   - model: Resnet18
+    args: None
     prediction_fn:
         call: predict
         args:
             X: image
   - model: Seresnet18
+    args: None
     prediction_fn:
         call: predict
         args:
