@@ -27,7 +27,7 @@ def model_build(model_name):
                  classes=1000), preprocess_input
 
 
-models = ['resnet18', 'seresnet18']
+models = ['seresnet18', 'resnet18']
 
 for model_name in models:
     class Temp:
