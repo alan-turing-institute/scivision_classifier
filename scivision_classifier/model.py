@@ -28,10 +28,11 @@ def model_build(model_name):
 
 
 model_names = ['seresnet18', 'resnet18']
-models = []
+models = {}
 for model_name in model_names:
-    models.append(model_build(model_name))
-for model in models:
+    models[model_name] = model_build(model_name)
+
+for model_name, model in models.items():
     class Temp:
         def __init__ (self):
             self.pretrained_model = model[0]
