@@ -27,14 +27,15 @@ def model_build(model_name):
                  classes=1000), preprocess_input
 
 
-models = ['seresnet18', 'resnet18']
-
-for model_name in models:
-    new_model, preprocess_input = model_build(model_name)
+model_names = ['seresnet18', 'resnet18']
+models = []
+for model_name in model_names:
+    models.append(model_build(model_name))
+for model in models:
     class Temp:
         def __init__ (self):
-            self.pretrained_model = new_model
-            self.preprocess_input = preprocess_input
+            self.pretrained_model = model[0]
+            self.preprocess_input = model[1]
         def predict(self, image: np.ndarray) -> np.ndarray:
             return tidy_predict(self, image)
     class_name = model_name.capitalize()
