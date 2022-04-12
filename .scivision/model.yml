@@ -1,1 +1,20 @@
-
+name: scivision_pytorch
+url: https://github.com/alan-turing-institute/scivision_pytorch
+import: scivision_pytorch
+models:
+  - model: ImageClassifier
+    args:
+        model_name: resnet18
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+        kwargs: None
+  - model: ImageClassifier
+    args:
+        model_name: seresnet18
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+        kwargs: None

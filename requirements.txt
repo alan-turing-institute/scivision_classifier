@@ -1,0 +1,7 @@
+numpy
+scikit-image
+xarray
+dask
+tensorflow
+keras_applications>=1.0.7
+image-classifiers
