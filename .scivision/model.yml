@@ -1,6 +1,6 @@
-name: scivision_pytorch
-url: https://github.com/alan-turing-institute/scivision_pytorch
-import: scivision_pytorch
+name: scivision_classifier
+url: https://github.com/alan-turing-institute/scivision_classifier
+import: scivision_classifier
 models:
   - model: ImageClassifier
     args:
