@@ -19,14 +19,18 @@ def tidy_predict(self, image: np.ndarray) -> np.ndarray:
     return "{} : {:.2f}%".format(image_class, class_confidence * 100)
 
 
+def model_build(model_name):
+    """Builds a model from the image-classifiers package"""
+    model, preprocess_input = Classifiers.get(model_name)
+    return model(input_shape=(224, 224, 3),
+                 weights="imagenet",
+                 classes=1000),
+           preprocess_input
+
+
 class Resnet18:
     def __init__(self):
-        model, self.preprocess_input = Classifiers.get("resnet18")
-
-        # can build the model here, so we can reuse the prediction function
-        self.pretrained_model = model(
-            input_shape=(224, 224, 3), weights="imagenet", classes=1000
-        )
+        self.pretrained_model, self.preprocess_input = model_build('resnet18')
 
     def predict(self, image: np.ndarray) -> np.ndarray:
         return tidy_predict(self, image)
@@ -34,12 +38,7 @@ class Resnet18:
         
 class Seresnet18:
     def __init__(self):
-        model, self.preprocess_input = Classifiers.get("seresnet18")
-
-        # can build the model here, so we can reuse the prediction function
-        self.pretrained_model = model(
-            input_shape=(224, 224, 3), weights="imagenet", classes=1000
-        )
+        self.pretrained_model, self.preprocess_input = model_build('seresnet18')
 
     def predict(self, image: np.ndarray) -> np.ndarray:
         return tidy_predict(self, image)
