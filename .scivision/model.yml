@@ -2,15 +2,183 @@ name: scivision_classifier
 url: https://github.com/alan-turing-institute/scivision_classifier
 import: scivision_classifier
 models:
-  - model: Resnet18
+  - model: vgg16
     args: None
     prediction_fn:
         call: predict
         args:
             X: image
-  - model: Seresnet18
+  - model: vgg19
     args: None
     prediction_fn:
         call: predict
         args:
             X: image
+  - model: resnet18
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnet34
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnet50
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnet101
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnet152
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnet50v2
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnet101v2
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnet152v2
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnext50
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: resnext101
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: densenet121
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: densenet169
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: densenet201
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: inceptionv3
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: xception
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: inceptionresnetv2
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: seresnet18
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: seresnet34
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: seresnet50
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: seresnet101
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: seresnet152
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: seresnext50
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: seresnext101
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: senet154
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: nasnetlarge
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: nasnetmobile
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: mobilenet
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image
+  - model: mobilenetv2
+    args: None
+    prediction_fn:
+        call: predict
+        args:
+            X: image             
