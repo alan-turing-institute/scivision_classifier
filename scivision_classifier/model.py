@@ -38,8 +38,8 @@ for model_name in model_names:
 for model_name in model_names:
     class Temp:
         def __init__ (self):
-            self.pretrained_model = model[model_name][0]
-            self.preprocess_input = model[model_name][1]
+            self.pretrained_model = models[model_name][0]
+            self.preprocess_input = models[model_name][1]
         def predict(self, image: np.ndarray) -> np.ndarray:
             return tidy_predict(self, image)
     class_name = model_name.capitalize()
