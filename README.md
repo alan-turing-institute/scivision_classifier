@@ -14,6 +14,8 @@ this_repo = 'https://github.com/alan-turing-institute/scivision_classifier'
 model = load_pretrained_model(this_repo, allow_install=True, model='densenet169')
 ```
 
+The full list of models that can be accepted by the `model` argument can be found on the [image-classifiers](https://pypi.org/project/image-classifiers/) package page.
+
 You can then use the loaded model's predict function on image data loaded via *scivision* (see the [user guide](https://scivision.readthedocs.io/en/latest/user_guide.html) for details on how data is loaded via the scivision catalog):
 
 ```python
