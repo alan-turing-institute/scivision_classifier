@@ -5,7 +5,7 @@ from skimage.transform import resize
 from tensorflow.keras.applications.imagenet_utils import decode_predictions
 
 
-def tidy_predict(self, image: np.ndarray) -> np.ndarray:
+def tidy_predict(self, image: np.ndarray) -> str:
     """Gives the top prediction and confidence for the provided image"""
     image = resize(image, (224, 224), 
                    preserve_range=True, 
@@ -19,7 +19,7 @@ def tidy_predict(self, image: np.ndarray) -> np.ndarray:
     return "{} : {:.2f}%".format(image_class, class_confidence * 100)
 
 
-def model_build(model_name):
+def model_build(model_name: str):
     """Builds a model from the image-classifiers package"""
     model, preprocess_input = Classifiers.get(model_name)
     return model(input_shape=(224, 224, 3),
