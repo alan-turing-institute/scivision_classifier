@@ -1,5 +1,5 @@
 name: scivision_classifier
-url: https://github.com/IFenton/scivision_classifier
+url: https://github.com/alan-turing-institute/scivision_classifier
 import: scivision_classifier
 models:
   - model: vgg16
