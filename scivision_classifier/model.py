@@ -1,20 +1,23 @@
 import numpy as np
+from numpy.typing import ArrayLike
 from classification_models.tfkeras import Classifiers
 from skimage.filters import gaussian
 from skimage.transform import resize
 from tensorflow.keras.applications.imagenet_utils import decode_predictions
 
 
-def tidy_predict(self, image: np.ndarray) -> str:
+def tidy_predict(self, image: ArrayLike) -> str:
     """Gives the top prediction and confidence for the provided image"""
-    image = resize(image, (224, 224), 
-                   preserve_range=True, 
-                   anti_aliasing=True)
-    
-    image = self.preprocess_input(image)
-    image = np.expand_dims(image, 0)
+    image_arr = np.asarray(image)
+    image_arr = resize(
+        image_arr, (224, 224), 
+        preserve_range=True, 
+        anti_aliasing=True
+    )
+    image_arr = self.preprocess_input(image_arr)
+    image_arr = np.expand_dims(image_arr, 0)
 
-    y = self.pretrained_model.predict(image)
+    y = self.pretrained_model.predict(image_arr)
     _, image_class, class_confidence = decode_predictions(y, top=1)[0][0]
     return "{} : {:.2f}%".format(image_class, class_confidence * 100)
 
