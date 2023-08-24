@@ -1,296 +1,157 @@
 import numpy as np
 from numpy.typing import ArrayLike
 from classification_models.tfkeras import Classifiers
-from skimage.filters import gaussian
 from skimage.transform import resize
-from tensorflow.keras.applications.imagenet_utils import decode_predictions
+import tensorflow
+
+# type checker can't resolve tensorflow.keras in import statement
+decode_predictions = tensorflow.keras.applications.imagenet_utils.decode_predictions
 
 
-def tidy_predict(self, image: ArrayLike) -> str:
-    """Gives the top prediction and confidence for the provided image"""
-    image_arr = np.asarray(image)
-    image_arr = resize(
-        image_arr, (224, 224), 
-        preserve_range=True, 
-        anti_aliasing=True
-    )
-    image_arr = self.preprocess_input(image_arr)
-    image_arr = np.expand_dims(image_arr, 0)
+class ImageClassifier:
+    name: str
 
-    y = self.pretrained_model.predict(image_arr)
-    _, image_class, class_confidence = decode_predictions(y, top=1)[0][0]
-    return "{} : {:.2f}%".format(image_class, class_confidence * 100)
-
-
-def model_build(model_name: str):
-    """Builds a model from the image-classifiers package"""
-    model, preprocess_input = Classifiers.get(model_name)
-    return model(input_shape=(224, 224, 3),
-                 weights="imagenet",
-                 classes=1000), preprocess_input
-
-
-
-# TODO: the commented out version result in two classes named differently BUT seem to both use the same model???
-
-# model_names = ['seresnet18', 'resnet18']
-# models = {}
-# for model_name in model_names:
-#     models[model_name] = model_build(model_name)
-# 
-# for model_name in model_names:
-#     class Temp:
-#         def __init__ (self):
-#             self.pretrained_model = models[model_name][0]
-#             self.preprocess_input = models[model_name][1]
-#         def predict(self, image: np.ndarray) -> np.ndarray:
-#             return tidy_predict(self, image)
-#     class_name = model_name.capitalize()
-#     Temp.__name__ = class_name
-#     globals()[class_name] = Temp
-        
-
-class vgg16:
     def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('vgg16')
+        model_spec, self.preprocess_input = Classifiers.get(self.name)
+        self.model = model_spec(
+            input_shape=(224, 224, 3),
+            weights="imagenet",
+            classes=1000
+        )
 
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class vgg19:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('vgg19')
+    def predict(self, image: ArrayLike) -> str:
+        """Gives the top prediction and confidence for the provided image"""
+        image_arr = np.asarray(image)
+        image_arr = resize(
+            image_arr, (224, 224),
+            preserve_range=True,
+            anti_aliasing=True
+        )
+        image_arr = self.preprocess_input(image_arr)
+        image_arr = np.expand_dims(image_arr, 0)
 
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnet18:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet18')
+        y = self.model.predict(image_arr)
 
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnet34:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet34')
+        _, image_class, class_confidence = decode_predictions(y, top=1)[0][0]
 
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnet50:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet50')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnet101:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet101')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnet152:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet152')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnet50v2:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet50v2')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnet101v2:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet101v2')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnet152v2:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnet152v2')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnext50:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnext50')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class resnext101:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('resnext101')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class densenet121:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('densenet121')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class densenet169:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('densenet169')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class densenet201:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('densenet201')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class inceptionv3:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('inceptionv3')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class xception:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('xception')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class inceptionresnetv2:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('inceptionresnetv2')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class seresnet18:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnet18')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class seresnet34:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnet34')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class seresnet50:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnet50')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class seresnet101:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnet101')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class seresnet152:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnet152')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class seresnext50:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnext50')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class seresnext101:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('seresnext101')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class senet154:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('senet154')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class nasnetlarge:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('nasnetlarge')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class nasnetmobile:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('nasnetmobile')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class mobilenet:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('mobilenet')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
-        
-        
-class mobilenetv2:
-    def __init__(self):
-        self.pretrained_model, self.preprocess_input = model_build('mobilenetv2')
-
-    def predict(self, image: np.ndarray) -> str:
-        return tidy_predict(self, image)
+        return "{} : {:.2f}%".format(image_class, class_confidence * 100)
 
 
+class vgg16(ImageClassifier):
+    name = "vgg16"
 
 
-if __name__ == "__main__":
-    pass
+class vgg19(ImageClassifier):
+    name = "vgg19"
+
+
+class resnet18(ImageClassifier):
+    name = "resnet18"
+
+
+class resnet34(ImageClassifier):
+    name = "resnet34"
+
+
+class resnet50(ImageClassifier):
+    name = "resnet50"
+
+
+class resnet101(ImageClassifier):
+    name = "resnet101"
+
+
+class resnet152(ImageClassifier):
+    name = "resnet152"
+
+
+class resnet50v2(ImageClassifier):
+    name = "resnet50v2"
+
+
+class resnet101v2(ImageClassifier):
+    name = "resnet101v2"
+
+
+class resnet152v2(ImageClassifier):
+    name = "resnet152v2"
+
+
+class resnext50(ImageClassifier):
+    name = "resnext50"
+
+
+class resnext101(ImageClassifier):
+    name = "resnext101"
+
+
+class densenet121(ImageClassifier):
+    name = "densenet121"
+
+
+class densenet169(ImageClassifier):
+    name = "densenet169"
+
+
+class densenet201(ImageClassifier):
+    name = "densenet201"
+
+
+class inceptionv3(ImageClassifier):
+    name = "inceptionv3"
+
+
+class xception(ImageClassifier):
+    name = "xception"
+
+
+class inceptionresnetv2(ImageClassifier):
+    name = "inceptionresnetv2"
+
+
+class seresnet18(ImageClassifier):
+    name = "seresnet18"
+
+
+class seresnet34(ImageClassifier):
+    name = "seresnet34"
+
+
+class seresnet50(ImageClassifier):
+    name = "seresnet50"
+
+
+class seresnet101(ImageClassifier):
+    name = "seresnet101"
+
+
+class seresnet152(ImageClassifier):
+    name = "seresnet152"
+
+
+class seresnext50(ImageClassifier):
+    name = "seresnext50"
+
+
+class seresnext101(ImageClassifier):
+    name = "seresnext101"
+
+
+class senet154(ImageClassifier):
+    name = "senet154"
+
+
+class nasnetlarge(ImageClassifier):
+    name = "nasnetlarge"
+
+
+class nasnetmobile(ImageClassifier):
+    name = "nasnetmobile"
+
+
+class mobilenet(ImageClassifier):
+    name = "mobilenet"
+
+
+class mobilenetv2(ImageClassifier):
+    name = "mobilenetv2"
